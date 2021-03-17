@@ -1,4 +1,4 @@
-import { assert } from 'https://deno.land/std@0.90.0/testing/asserts.ts';
+import {assert} from "./deps.ts";
 
 /**
  * Checks an array if there are duplicate values
