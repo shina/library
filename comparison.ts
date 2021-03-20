@@ -1,4 +1,4 @@
-import {assert} from "./deps.ts";
+import {assert} from "./build/deps.ts";
 
 /**
  * Checks an array if there are duplicate values

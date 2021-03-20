@@ -1,4 +1,4 @@
-import { assertEquals } from "./deps.ts";
+import { assertEquals } from "./build/deps.ts";
 
 export function recordToTuple(record: Record<string, unknown>): [string, unknown][] {
     return Object.keys(record).map(key => ([key, record[key]]));

@@ -1,4 +1,4 @@
-import {assert, assertEquals} from "./deps.ts";
+import {assert, assertEquals} from "./build/deps.ts";
 
 /**
  * filterAsync is an alternative to Array.filter to use asynchronous conditions

@@ -1,4 +1,4 @@
-import {assert, assertEquals} from "./deps.ts";
+import {assert, assertEquals} from "./build/deps.ts";
 
 /**
  * Not the fastest (might be faster than serialize/parse) but the most safe way to clone an object
