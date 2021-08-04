@@ -1,4 +1,4 @@
-import { assertEquals } from "./build/deps.ts";
+import { assertEquals } from "../deps.ts";
 import {recordToTuple, reduceTupleToObject, tuplesToObject} from "./conversor.ts";
 
 

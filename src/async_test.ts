@@ -1,4 +1,4 @@
-import {assert, assertEquals} from "./build/deps.ts";
+import {assert, assertEquals} from "../deps.ts";
 import {delay, filterAsync} from "./async.ts";
 
 Deno.test("filterAsync basic", async () => {

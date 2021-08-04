@@ -1,4 +1,4 @@
-import {assert, assertEquals} from "./build/deps.ts";
+import {assert, assertEquals} from "../deps.ts";
 import {clone, cloneWith} from "./clone.js";
 
 Deno.test("clone: simple objects", () => {
