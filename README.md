@@ -1,3 +1,3 @@
 # shina/library
 
-Deno library for common procedures 
+Deno library with pure functions 

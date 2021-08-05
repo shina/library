@@ -1,10 +1,12 @@
 import {assert, assertEquals} from "../deps.ts";
 import {delay} from "./async.ts";
-import {debouncer} from "./debouncer.ts";
+import { createDebouncer as pureCreateDebouncer } from "./debouncer.ts";
+
+const createDebouncer = pureCreateDebouncer.bind(null, setTimeout, clearTimeout);
 
 Deno.test("debouncer basic", async () => {
     // create debounce function with 5 ms of delay
-    const debounce = debouncer(5);
+    const debounce = createDebouncer(5);
 
     // execute the same function 3 times
     let counter = 0;
@@ -13,12 +15,12 @@ Deno.test("debouncer basic", async () => {
     debounce(() => counter++);
 
     // after 5ms the function is expected to be executed only once
-    await delay(5);
+    await delay(setTimeout, 5);
     assertEquals(counter, 1);
 });
 
 Deno.test("debouncer shared", async () => {
-    const debounce = debouncer(5);
+    const debounce = createDebouncer(5);
 
     /**
      * Although it is not the normal use case, for testing purpose, the requests are different
@@ -40,7 +42,7 @@ Deno.test("debouncer shared", async () => {
  * That is a tricky test because it has to test how long the debounce is taking to execute
  */
 Deno.test("debouncer must restart the timer whenever a new call is made", async () => {
-    const debounce = debouncer(15);
+    const debounce = createDebouncer(15);
     const startTime = Date.now();
     let counter = 0;
 
@@ -48,7 +50,7 @@ Deno.test("debouncer must restart the timer whenever a new call is made", async 
     debounce(() => counter++);
 
     // wait 10ms, not enough to finish the debouncer delay
-    await delay(10);
+    await delay(setTimeout, 10);
 
     // call debounce again, it should restart the delay
     await debounce(() => counter++);

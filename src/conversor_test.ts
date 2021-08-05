@@ -1,5 +1,5 @@
 import { assertEquals } from "../deps.ts";
-import {recordToTuple, reduceTupleToObject, tuplesToObject} from "./conversor.ts";
+import {recordToTuples, reduceTuplesToObject, tuplesToObject} from "./conversor.ts";
 
 
 Deno.test("recordToTuple basic", () => {
@@ -8,7 +8,7 @@ Deno.test("recordToTuple basic", () => {
         bar: "xyz"
     };
 
-    assertEquals(recordToTuple(obj), [["foo", "abc"], ["bar", "xyz"]]);
+    assertEquals(recordToTuples(obj), [["foo", "abc"], ["bar", "xyz"]]);
 });
 
 
@@ -20,5 +20,5 @@ Deno.test("tuplesToObject basic", () => {
 Deno.test("reduceTupleToObject basic", () => {
     const tuples = [["foo", "abc"], ["bar", "xyz"]];
 
-    assertEquals(tuples.reduce(reduceTupleToObject, {}), { foo: "abc", bar: "xyz" });
+    assertEquals(tuples.reduce(reduceTuplesToObject, {}), { foo: "abc", bar: "xyz" });
 });

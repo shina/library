@@ -20,8 +20,8 @@ export async function filterAsync<T = any>(arr: T[], test: (item?: T) => Promise
  * delay delays your code =)
  * Be careful where/how you will use this
  */
-export async function delay(ms: number): Promise<void> {
+export async function delay(setTimeoutFunc: typeof setTimeout, ms: number): Promise<void> {
     return new Promise((resolve: () => void) => {
-        setTimeout(resolve, ms);
+        setTimeoutFunc(resolve, ms);
     });
 }

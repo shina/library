@@ -1,5 +1,5 @@
 import {assert, assertEquals} from "../deps.ts";
-import {clone, cloneWith} from "./clone.js";
+import {clone, cloneWith} from "./clone.ts";
 
 Deno.test("clone: simple objects", () => {
     const obj = {};
@@ -50,9 +50,7 @@ Deno.test("clone: boolean", () => {
 });
 Deno.test("clone: class", () => {
     class MyClass {
-        constructor() {
-            this.a = "foo";
-        }
+        a = "foo";
         bar() {
             return "bar";
         }

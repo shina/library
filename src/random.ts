@@ -1,8 +1,10 @@
+const {floor, random} = Math;
+
 /**
  * Get an item of an array randomly
  */
 export function getOneRandomly<T>(arr: T[]): T {
-    const randomId = Math.floor(Math.random() * arr.length);
+    const randomId = floor(random() * arr.length);
     return arr[randomId];
 }
 
@@ -11,5 +13,5 @@ export function getOneRandomly<T>(arr: T[]): T {
  * Most of the time used as ID
  */
 export function randString(): string {
-    return Math.random().toString(36).substr(2, 11);
+    return random().toString(36).substr(2, 11);
 }

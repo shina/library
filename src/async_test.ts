@@ -8,6 +8,6 @@ Deno.test("filterAsync basic", async () => {
 
 Deno.test("delay basic", async () => {
     const timestamp = Date.now();
-    await delay(10);
+    await delay(setTimeout, 10);
     assert(Date.now() >= timestamp+10);
 });
