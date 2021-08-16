@@ -37,7 +37,7 @@ test("debouncer shared", async () => {
         debounce(() => "response 1"),
         debounce(() => "response 2"),
         debounce(() => "response 3"),
-        async () => setTime(5)
+        setTime(5)
     ]);
 
     // Every caller must receive the same response
@@ -62,7 +62,7 @@ test("debouncer must restart the timer whenever a new call is made", async () =>
     // call debounce again, it should restart the delay
     await Promise.all([
         debounce(() => counter++),
-        async () => setTime(15)
+        setTime(15)
     ])
 
     assertEquals(counter, 1); // make sure the function was executed only once

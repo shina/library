@@ -12,7 +12,7 @@ test("delay basic", async () => {
 
     await Promise.all([
         delay(setTimeout, 10),
-        async () => setTime(10)
+        setTime(10)
     ]);
 
     assert(true);

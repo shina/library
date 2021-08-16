@@ -48,7 +48,6 @@ test("Multiple timeouts", () => {
     assert(changeMe === "bar");
 
     setTime(1000);
-    // @ts-ignore
     assert(changeMe === "bar");
 
     setTime(1500);
