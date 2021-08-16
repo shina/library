@@ -1,12 +1,18 @@
-import {assert, assertEquals} from "../deps.ts";
-import {delay} from "./async.ts";
-import { createDebouncer as pureCreateDebouncer } from "./debouncer.ts";
+import { assertEquals, test } from "../deps.ts";
+import { Debouncer as PureDebouncer } from "./debouncer.ts";
+import { FakeTimeout } from './test-utils/fake-timeout.ts';
 
-const createDebouncer = pureCreateDebouncer.bind(null, setTimeout, clearTimeout);
+const {setTimeout, clearTimeout, setTime} = new FakeTimeout();
 
-Deno.test("debouncer basic", async () => {
+class Debouncer<T> extends PureDebouncer<T> {
+    constructor(ms: number) {
+        super(setTimeout, clearTimeout, ms);
+    }
+}
+
+test("debouncer basic", async () => {
     // create debounce function with 5 ms of delay
-    const debounce = createDebouncer(5);
+    const {debounce} = new Debouncer(5);
 
     // execute the same function 3 times
     let counter = 0;
@@ -15,12 +21,13 @@ Deno.test("debouncer basic", async () => {
     debounce(() => counter++);
 
     // after 5ms the function is expected to be executed only once
-    await delay(setTimeout, 5);
+    setTime(5);
+
     assertEquals(counter, 1);
 });
 
-Deno.test("debouncer shared", async () => {
-    const debounce = createDebouncer(5);
+test("debouncer shared", async () => {
+    const {debounce} = new Debouncer(5);
 
     /**
      * Although it is not the normal use case, for testing purpose, the requests are different
@@ -29,7 +36,8 @@ Deno.test("debouncer shared", async () => {
     const responses = await Promise.all([
         debounce(() => "response 1"),
         debounce(() => "response 2"),
-        debounce(() => "response 3")
+        debounce(() => "response 3"),
+        async () => setTime(5)
     ]);
 
     // Every caller must receive the same response
@@ -41,21 +49,21 @@ Deno.test("debouncer shared", async () => {
 /**
  * That is a tricky test because it has to test how long the debounce is taking to execute
  */
-Deno.test("debouncer must restart the timer whenever a new call is made", async () => {
-    const debounce = createDebouncer(15);
-    const startTime = Date.now();
+test("debouncer must restart the timer whenever a new call is made", async () => {
+    const {debounce} = new Debouncer(15);
     let counter = 0;
 
     // first execution, don't wait
     debounce(() => counter++);
 
     // wait 10ms, not enough to finish the debouncer delay
-    await delay(setTimeout, 10);
+    setTime(10)
 
     // call debounce again, it should restart the delay
-    await debounce(() => counter++);
+    await Promise.all([
+        debounce(() => counter++),
+        async () => setTime(15)
+    ])
 
-    const timeDiff = Date.now() - startTime;
-    assert(timeDiff >= 25); // it should take at least 25ms / 10ms (delay) + 15ms (debouncer)
     assertEquals(counter, 1); // make sure the function was executed only once
 });

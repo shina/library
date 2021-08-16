@@ -1,7 +1,7 @@
 import { valueOrThrow } from './type-checking.ts';
-import { assertEquals, assertThrows } from '../deps.ts';
+import { assertEquals, assertThrows, test } from '../deps.ts';
 
-Deno.test("valueOrThrow", () => {
+test("valueOrThrow", () => {
     const errorFactory = () => new Error();
 
     assertEquals(valueOrThrow("random value", errorFactory), "random value");

@@ -2,25 +2,31 @@
 /**
  * Create a debouncer that wait for `ms` milliseconds to execute the last call
  */
-export function createDebouncer<T>(setTimeoutFunc: typeof setTimeout, clearTimeoutFunc: typeof clearTimeout, ms: number) {
+export class Debouncer<T> {
 
-    let promise: Promise<T> | undefined;
-    let resolve: (value: T) => void | undefined;
-    let lastFunc: () => T;
-    let timeoutRef: number | undefined;
+    protected promise?: Promise<T>;
+    protected resolve!: (value: T) => void;
+    protected lastFunc!: () => T;
+    protected timeoutRef?: number;
 
-    return function(func: () => T): Promise<T> {
-        lastFunc = func;
-        if (promise === undefined) {
-            promise = new Promise((r) => resolve = r);
+    constructor(
+        protected setTimeoutFunc: typeof setTimeout,
+        protected clearTimeoutFunc: typeof clearTimeout,
+        protected ms: number
+    ) {}
+
+    debounce = (fn: () => T) => {
+        this.lastFunc = fn;
+        if (this.promise === undefined) {
+            this.promise = new Promise((r) => this.resolve = r);
         }
 
-        clearTimeoutFunc(timeoutRef);
-        timeoutRef = setTimeoutFunc(() => {
-            resolve(lastFunc());
-            promise = undefined;
-        }, ms);
+        this.clearTimeoutFunc(this.timeoutRef);
+        this.timeoutRef = this.setTimeoutFunc.call(null, () => {
+            this.resolve(this.lastFunc());
+            this.promise = undefined;
+        }, this.ms);
 
-        return promise;
-    };
+        return this.promise;
+    }
 }
