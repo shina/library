@@ -1,5 +1,5 @@
-import { valueOrThrow } from './type-checking.ts';
-import { assertEquals, assertThrows, test } from '../deps.ts';
+import { executeOrIgnore, valueOrThrow } from './type-checking.ts';
+import { assert, assertEquals, assertThrows, test } from '../deps.ts';
 
 test("valueOrThrow", () => {
     const errorFactory = () => new Error();
@@ -10,4 +10,18 @@ test("valueOrThrow", () => {
     assertEquals(valueOrThrow(false, errorFactory), false);
     assertThrows(() => valueOrThrow(null, errorFactory));
     assertThrows(() => valueOrThrow(undefined, errorFactory));
+});
+
+test("executeOrIgnore", () => {
+    const fnThrows = executeOrIgnore(() => {throw new Error()});
+    const fnFoo = executeOrIgnore(() => "foo");
+
+    assert(fnThrows() === null);
+    assert(fnFoo() === "foo");
+});
+
+test("executeOrIgnore with params", () => {
+    const fnWithParams = executeOrIgnore((firstname: string, lastname: string) => `${firstname} ${lastname}`);
+
+    assert(fnWithParams("foo", "bar") === "foo bar");
 });
