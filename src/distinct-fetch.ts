@@ -18,10 +18,7 @@ export class DistinctFetch {
         if (ignoreError) {
             this.fetchFn = executeOrIgnore(
                 this.fetchFn,
-                (e: Error) => {
-                    console.log(e);
-                    return e.name === "AbortError";
-                }
+                (e: Error) => e.name === "AbortError"
             ) as typeof fetch;
         }
     }
