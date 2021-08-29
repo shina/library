@@ -12,7 +12,12 @@ export function valueOrThrow<T>(value: T, errorFactory: (value: T) => Error): No
 export function executeOrIgnore<T extends (...params: any[]) => any>(fn: T): (...params: Parameters<T>) => ReturnType<T> | null {
     return (...params) => {
         try {
-            return fn(...params);
+            const result = fn(...params);
+            if (result instanceof Promise) {
+                return result.catch(() => null);
+            } else {
+                return result;
+            }
         } catch {
             return null;
         }

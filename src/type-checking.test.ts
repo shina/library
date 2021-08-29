@@ -25,3 +25,9 @@ test("executeOrIgnore with params", () => {
 
     assert(fnWithParams("foo", "bar") === "foo bar");
 });
+
+test("executeOrIgnore with promise", async () => {
+    const fnThrows = executeOrIgnore(async () => {throw new Error()});
+
+    assert(await fnThrows() === null);
+});
