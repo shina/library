@@ -1,3 +1,4 @@
-export { assert, assertEquals, assertThrows } from "https://deno.land/std@0.101.0/testing/asserts.ts";
-export * as asserts from "https://deno.land/std@0.101.0/testing/asserts.ts";
+export { assert, assertEquals, assertThrows } from "https://deno.land/std@0.104.0/testing/asserts.ts";
+export { bench, runBenchmarks, } from "https://deno.land/std@0.104.0/testing/bench.ts";
+
 export const {test} = Deno;
