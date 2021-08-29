@@ -1,5 +1,5 @@
 import { executeOrIgnore, valueOrThrow } from './type-checking.ts';
-import { assert, assertEquals, assertThrows, test } from '../deps.ts';
+import { assert, assertEquals, assertThrows, assertThrowsAsync, test } from '../deps.ts';
 
 test("valueOrThrow", () => {
     const errorFactory = () => new Error();
@@ -30,4 +30,23 @@ test("executeOrIgnore with promise", async () => {
     const fnThrows = executeOrIgnore(async () => {throw new Error()});
 
     assert(await fnThrows() === null);
+});
+
+test("executeOrIgnore ignores only one type of error", async () => {
+    class TestError extends Error {}
+    const ignoreError = (e: Error) => e instanceof TestError;
+
+    const fnIgnore = executeOrIgnore(() => {throw new TestError()}, ignoreError);
+    const fnAsyncIgnore = executeOrIgnore(async () => {throw new TestError()}, ignoreError);
+    const fnThrows = executeOrIgnore(() => {throw new Error()}, ignoreError);
+    const fnAsyncThrows = executeOrIgnore(async () => {throw new Error()}, ignoreError);
+
+    assert(fnIgnore() === null);
+    assert(await fnAsyncIgnore() === null);
+    assertThrows(() => {
+        fnThrows();
+    });
+    assertThrowsAsync(async () => {
+        await fnAsyncThrows();
+    });
 });

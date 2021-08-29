@@ -9,17 +9,30 @@ export function valueOrThrow<T>(value: T, errorFactory: (value: T) => Error): No
 /**
  * Execute a function, if it fails, ignore returning `null`
  */
-export function executeOrIgnore<T extends (...params: any[]) => any>(fn: T): (...params: Parameters<T>) => ReturnType<T> | null {
+export function executeOrIgnore<T extends (...params: any[]) => any>(
+    fn: T,
+    ignoreError: (e: Error) => boolean = () => true
+): (...params: Parameters<T>) => ReturnType<T> | null {
     return (...params) => {
         try {
             const result = fn(...params);
             if (result instanceof Promise) {
-                return result.catch(() => null);
+                return result.catch((e) => {
+                    if (ignoreError(e)) {
+                        return null;
+                    } else {
+                        throw e;
+                    }
+                });
             } else {
                 return result;
             }
-        } catch {
-            return null;
+        } catch (e) {
+            if (ignoreError(e)) {
+                return null;
+            } else {
+                throw e;
+            }
         }
     }
 }
