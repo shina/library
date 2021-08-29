@@ -6,6 +6,9 @@ export function valueOrThrow<T>(value: T, errorFactory: (value: T) => Error): No
     return value ?? (() => { throw errorFactory(value); })();
 }
 
+/**
+ * Execute a function, if it fails, ignore returning `null`
+ */
 export function executeOrIgnore<T extends (...params: any[]) => any>(fn: T): (...params: Parameters<T>) => ReturnType<T> | null {
     return (...params) => {
         try {
