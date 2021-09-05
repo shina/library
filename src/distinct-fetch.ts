@@ -8,30 +8,31 @@
 import { executeOrIgnore } from "./type-checking.ts";
 
 export class DistinctFetch {
+  private abortController?: AbortController;
 
-    private abortController?: AbortController;
-
-    constructor(
-        private fetchFn: typeof fetch,
-        ignoreError = false
-    ) {
-        if (ignoreError) {
-            this.fetchFn = executeOrIgnore(
-                this.fetchFn,
-                (e: Error) => e.name === "AbortError"
-            ) as typeof fetch;
-        }
+  constructor(
+    private fetchFn: typeof fetch,
+    ignoreError = false,
+  ) {
+    if (ignoreError) {
+      this.fetchFn = executeOrIgnore(
+        this.fetchFn,
+        (e: Error) => e.name === "AbortError",
+      ) as typeof fetch;
     }
+  }
 
-    fetch: typeof fetch = (url: string | Request | URL, fetchOptions?: RequestInit) => {
-        this.abortController?.abort();
-        this.abortController = new AbortController();
+  fetch: typeof fetch = (
+    url: string | Request | URL,
+    fetchOptions?: RequestInit,
+  ) => {
+    this.abortController?.abort();
+    this.abortController = new AbortController();
 
-        fetchOptions = {
-            ...fetchOptions ?? {},
-            signal: this.abortController.signal
-        };
-        return this.fetchFn(url, fetchOptions);
-    }
-
+    fetchOptions = {
+      ...fetchOptions ?? {},
+      signal: this.abortController.signal,
+    };
+    return this.fetchFn(url, fetchOptions);
+  };
 }

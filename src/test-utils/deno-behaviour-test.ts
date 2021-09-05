@@ -1,21 +1,22 @@
 import { test } from "../../deps.ts";
 
 interface TestFn {
-    (...params: any[]):  any
+  (...params: any[]): any;
 }
 
 interface It {
-    (description: string, fn?: TestFn): any
+  (description: string, fn?: TestFn): any;
 }
 
 export function describe(what: string, fn: (it: It) => any) {
-    fn(createIt(what));
+  fn(createIt(what));
 }
 
-const createIt = (what: string) => (description: string, fn?: TestFn) => {
+const createIt = (what: string) =>
+  (description: string, fn?: TestFn) => {
     if (fn) {
-        test(`${what} ${description}`, fn);
+      test(`${what} ${description}`, fn);
     } else {
-        test(`${what} ${description}`, () => {});
+      test(`${what} ${description}`, () => {});
     }
-}
+  };

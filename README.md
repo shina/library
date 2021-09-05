@@ -1,3 +1,3 @@
 # shina/library
 
-Deno library with pure functions 
+Deno library with pure functions

@@ -14,8 +14,5 @@
  * // output: 6
  * ```
  */
-export const reduceUsing =
-    (reducer: (prev: any, curr: any) => any) =>
-        (data: any[]) =>
-            (value: any) =>
-                data.reduce(reducer, value);
+export const reduceUsing = (reducer: (prev: any, curr: any) => any) =>
+  (data: any[]) => (value: any) => data.reduce(reducer, value);

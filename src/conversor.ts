@@ -1,10 +1,11 @@
-
 /**
  * Converts an indexed object to key-value tuples
  * { foo: "bar", lorem: "ipsum" } -> [["foo", "bar], ["lorem", "ipsum"]]
  */
-export function recordToTuples(record: Record<string, unknown>): [string, unknown][] {
-    return Object.keys(record).map(key => ([key, record[key]]));
+export function recordToTuples(
+  record: Record<string, unknown>,
+): [string, unknown][] {
+  return Object.keys(record).map((key) => ([key, record[key]]));
 }
 
 /**
@@ -12,7 +13,7 @@ export function recordToTuples(record: Record<string, unknown>): [string, unknow
  * [["foo", "bar], ["lorem", "ipsum"]] -> { foo: "bar", lorem: "ipsum" }
  */
 export function tuplesToObject(tuples: unknown[][]): Record<string, unknown> {
-    return tuples.reduce<Record<string, unknown>>(reduceTuplesToObject, {});
+  return tuples.reduce<Record<string, unknown>>(reduceTuplesToObject, {});
 }
 
 /**
@@ -27,7 +28,10 @@ export function tuplesToObject(tuples: unknown[][]): Record<string, unknown> {
  *   .reduce(reduceTuplesToObject, {});
  * ```
  */
-export function reduceTuplesToObject(result: Record<string, unknown>, [key, value]: any[]) {
-    result[key] = value;
-    return result;
+export function reduceTuplesToObject(
+  result: Record<string, unknown>,
+  [key, value]: any[],
+) {
+  result[key] = value;
+  return result;
 }
