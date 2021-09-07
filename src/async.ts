@@ -2,7 +2,7 @@
  * filterAsync is an alternative to Array.filter to use asynchronous conditions
  * e.g. make a http request on each test or consult the IndexedDB
  */
-export async function filterAsync<T = any>(
+export async function filterAsync<T>(
   arr: T[],
   test: (item?: T) => Promise<boolean>,
 ) {
@@ -22,7 +22,7 @@ export async function filterAsync<T = any>(
  * delay delays your code =)
  * Be careful where/how you will use this
  */
-export async function delay(
+export function delay(
   setTimeoutFunc: typeof setTimeout,
   ms: number,
 ): Promise<void> {

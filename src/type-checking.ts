@@ -11,17 +11,20 @@ export function valueOrThrow<T>(
 }
 
 /**
- * Execute a function, if it fails, ignore returning `null`
+ * Creates a function, when executed: if it fails, ignore returning `null`
+ * Or set `ignoreError` predicate to choose when the error has to be ignored
  */
-export function executeOrIgnore<T extends (...params: any[]) => any>(
+export function executeOrIgnore<
+  T extends CallableFunction,
+>(
   fn: T,
   ignoreError: (e: Error) => boolean = () => true,
-): (...params: Parameters<T>) => ReturnType<T> | null {
-  return (...params) => {
+): CallableFunction {
+  return (...params: unknown[]) => {
     try {
       const result = fn(...params);
       if (result instanceof Promise) {
-        return result.catch((e) => {
+        return result.catch((e: Error) => {
           if (ignoreError(e)) {
             return null;
           } else {

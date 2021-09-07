@@ -3,9 +3,8 @@ import { valueOrThrow } from "./type-checking.ts";
 /**
  * Creates a provider of strategies. It look for the right strategy by a pre specified key.
  */
-export const strategyGetter = (getter: (key: any) => (...args: any[]) => any) =>
-  (key: any) =>
-    valueOrThrow(getter(key), () => new Error("Strategy not found"));
+export const strategyGetter = <T>(getter: (key: T) => CallableFunction) =>
+  (key: T) => valueOrThrow(getter(key), () => new Error("Strategy not found"));
 
 /**
  * Creates a provider of strategies. It look for the right strategy by a predicate function.
@@ -17,11 +16,11 @@ export const strategyGetter = (getter: (key: any) => (...args: any[]) => any) =>
  * ]);
  * ```
  */
-export const strategyFinder = (
-  strategies: Array<(value: any) => ((...args: any[]) => any) | false>,
+export const strategyFinder = <T, F>(
+  strategies: Array<(value: T) => F | false>,
 ) =>
-  (value: any) =>
+  (value: T) =>
     valueOrThrow(
       strategies.find((strategy) => strategy(value)),
       () => new Error("Strategy not found"),
-    )(value) as (...args: any[]) => any;
+    )(value) as F;

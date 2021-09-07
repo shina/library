@@ -21,6 +21,6 @@ test("strategy finder", () => {
   ];
 
   const strategyProvider = strategyFinder(strategies);
-  let strategyProvider1 = strategyProvider("world");
+  const strategyProvider1 = strategyProvider("world");
   assertEquals(strategyProvider1("world"), "hello world");
 });

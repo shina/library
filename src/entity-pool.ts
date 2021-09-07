@@ -1,6 +1,6 @@
 import { Entity } from "./types/entity.ts";
 
-interface Storage<V = any> {
+interface Storage<V> {
   set(key: string, value: V): Storage<V>;
   get(key: string): V;
 }
@@ -9,7 +9,7 @@ interface Storage<V = any> {
  * Pool of `Entity`
  */
 export class EntityPool<E extends Entity> {
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage<E>) {
   }
 
   set = (entity: E) => {

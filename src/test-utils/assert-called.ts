@@ -3,11 +3,11 @@ export class AssertCalled {
 
   constructor(
     private assertFn: (result: boolean) => void,
-    private wrapFn?: (...params: any[]) => any,
+    private wrapFn?: (...params: unknown[]) => unknown,
   ) {
   }
 
-  stubFn = (...params: any[]) => {
+  stubFn = (...params: unknown[]) => {
     this.wasCalled = true;
     if (this.wrapFn) {
       return this.wrapFn(...params);

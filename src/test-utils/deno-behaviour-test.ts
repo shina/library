@@ -1,14 +1,14 @@
 import { test } from "../../deps.ts";
 
 interface TestFn {
-  (...params: any[]): any;
+  (...params: unknown[]): void;
 }
 
 interface It {
-  (description: string, fn?: TestFn): any;
+  (description: string, fn?: TestFn): void;
 }
 
-export function describe(what: string, fn: (it: It) => any) {
+export function describe(what: string, fn: (it: It) => void) {
   fn(createIt(what));
 }
 

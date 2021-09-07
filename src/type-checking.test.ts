@@ -37,8 +37,10 @@ test("executeOrIgnore with params", () => {
 });
 
 test("executeOrIgnore with promise", async () => {
-  const fnThrows = executeOrIgnore(async () => {
-    throw new Error();
+  const fnThrows = executeOrIgnore(() => {
+    return new Promise(() => {
+      throw new Error();
+    });
   });
 
   assert(await fnThrows() === null);
@@ -51,14 +53,18 @@ test("executeOrIgnore ignores only one type of error", async () => {
   const fnIgnore = executeOrIgnore(() => {
     throw new TestError();
   }, ignoreError);
-  const fnAsyncIgnore = executeOrIgnore(async () => {
-    throw new TestError();
+  const fnAsyncIgnore = executeOrIgnore(() => {
+    return new Promise(() => {
+      throw new TestError();
+    });
   }, ignoreError);
   const fnThrows = executeOrIgnore(() => {
     throw new Error();
   }, ignoreError);
-  const fnAsyncThrows = executeOrIgnore(async () => {
-    throw new Error();
+  const fnAsyncThrows = executeOrIgnore(() => {
+    return new Promise(() => {
+      throw new Error();
+    });
   }, ignoreError);
 
   assert(fnIgnore() === null);

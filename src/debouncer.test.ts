@@ -10,7 +10,7 @@ class Debouncer<T> extends PureDebouncer<T> {
   }
 }
 
-test("debouncer basic", async () => {
+test("debouncer basic", () => {
   // create debounce function with 5 ms of delay
   const { debounce } = new Debouncer(5);
 

@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck too much magic in this function
 
 /**
  * Not the fastest (might be faster than serialize/parse) but the most safe way to clone an object
@@ -22,7 +22,7 @@ export function clone<T>(obj: T): T {
         if (typeof obj[k] !== "object") {
           newObj[k] = obj[k];
         } else {
-          newObj[k] = clone(obj[k] as {});
+          newObj[k] = clone(obj[k] as Record<unknown, unknown>);
         }
       });
 

@@ -19,7 +19,7 @@ import { clone } from "../clone.ts";
  * ]
  * ```
  */
-export function rotateMatrix90<T>(matrix: any[][]): T[][] {
+export function rotateMatrix90<T>(matrix: unknown[][]): T[][] {
   const yLength = matrix.length;
   const xLength = matrix.reduce((result, row) => {
     return row.length > result ? row.length : result;
@@ -58,5 +58,5 @@ export function rotateMatrix90<T>(matrix: any[][]): T[][] {
       row.length = l;
       return row.reverse();
     })
-    .filter((row) => row.some((v) => v !== undefined));
+    .filter((row) => row.some((v) => v !== undefined)) as T[][];
 }

@@ -5,7 +5,7 @@ import { FakeTimeout } from "./test-utils/fake-timeout.ts";
 test("filterAsync basic", async () => {
   const result = await filterAsync(
     [1, 2, 3, 4, 5],
-    async (item) => (item || 0) > 3,
+    (item) => Promise.resolve((item || 0) > 3),
   );
   assertEquals(result, [4, 5]);
 });

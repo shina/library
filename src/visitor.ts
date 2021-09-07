@@ -1,12 +1,12 @@
 /**
  * Creates a reducer that provides the right strategy for the value being visited
  */
-export const visitorReducer = (
-  getVisitor: (decider: any) => (data: any) => any,
-) => (previous: any, current: any) => getVisitor(current)(previous);
+export const visitorReducer = <T>(
+  getVisitor: (decider: T) => CallableFunction,
+) => (previous: T, current: T) => getVisitor(current)(previous);
 
 /**
  * Creates a mapper that provides the right strategy for the value being visited
  */
-export const visitorMap = (getVisitor: (decider: any) => (val: any) => any) =>
-  (value: any) => getVisitor(value)(value);
+export const visitorMap = <T>(getVisitor: (decider: T) => CallableFunction) =>
+  (value: T) => getVisitor(value)(value);

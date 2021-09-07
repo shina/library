@@ -55,7 +55,7 @@ describe("FakeTimout", (it) => {
     assert(changeMe === "bar");
 
     setTime(1500);
-    // @ts-ignore
+    // @ts-ignore asserting a modification of value
     assert(changeMe === "asdf");
   });
 });
