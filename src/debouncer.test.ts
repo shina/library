@@ -30,9 +30,9 @@ test("debouncer shared", async () => {
   const { debounce } = new Debouncer(5);
 
   /**
-     * Although it is not the normal use case, for testing purpose, the requests are different
-     * It is simulating 3 different callers, from different places
-     */
+   * Although it is not the normal use case, for testing purpose, the requests are different
+   * It is simulating 3 different callers, from different places
+   */
   const responses = await Promise.all([
     debounce(() => "response 1"),
     debounce(() => "response 2"),
