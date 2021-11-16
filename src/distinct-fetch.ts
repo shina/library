@@ -23,8 +23,8 @@ export class DistinctFetch {
   }
 
   fetch: typeof fetch = (
-    url: string | Request | URL,
-    fetchOptions?: RequestInit,
+    request,
+    fetchOptions?,
   ) => {
     this.abortController?.abort();
     this.abortController = new AbortController();
@@ -33,6 +33,6 @@ export class DistinctFetch {
       ...fetchOptions ?? {},
       signal: this.abortController.signal,
     };
-    return this.fetchFn(url, fetchOptions);
+    return this.fetchFn(request, fetchOptions);
   };
 }
