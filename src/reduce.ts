@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 /**
  * Reducer in FP style
  *
@@ -14,5 +16,9 @@
  * // output: 6
  * ```
  */
-export const reduceUsing = <T>(reducer: (prev: T, curr: T) => T) =>
-  (data: T[]) => (value: T) => data.reduce(reducer, value);
+export const reduceUsing = <
+  Result,
+  Reducer extends (prev: Result, curr: T) => Result = any,
+  T = Parameters<Reducer>[1],
+>(reducer: Reducer) =>
+  (data: T[]) => (value: Result) => data.reduce<Result>(reducer, value);

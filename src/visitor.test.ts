@@ -6,7 +6,7 @@ const addOne = (val: number) => val + 1;
 const provider = (val: number) => val <= 2 ? subOne : addOne;
 
 test("visitor reducer", () => {
-  const reducer = visitorReducer(provider);
+  const reducer = visitorReducer<number>(provider);
   assert([1, 2, 3, 4, 5].reduce(reducer, 0) === 1);
 });
 
