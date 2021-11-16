@@ -10,11 +10,9 @@ export class ValueNotFound<K, V> extends Error {
  * A Map but it doesn't return `null`, it throws `ValueNotFound` instead
  */
 export class MapStrict<K, V> extends Map<K, V> {
-  get = (key: K): V =>
+  override get = (key: K): V =>
     valueOrThrow<V | undefined>(
       super.get(key),
       () => new ValueNotFound(this, key),
     );
-  set = (key: K, value: V): this => super.set(key, value);
-  has = (key: K): boolean => super.has(key);
 }
