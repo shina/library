@@ -3,8 +3,6 @@
  * TODO: move it to its own project
  */
 
-
-
 import { walkSync } from "https://deno.land/std@0.114.0/fs/mod.ts";
 import { Command } from "https://deno.land/x/cliffy/command/mod.ts";
 import { pipe, pipeFrom } from "./src/pipe/pipe.ts";
@@ -40,38 +38,49 @@ function readDirectory(path: string): DirEntry[] {
  */
 const readFilesForBarrel: (path: string) => string[] = pipe(
   readDirectory,
-  filter<DirEntry>(entry => entry.isFile),
-  filter<DirEntry>(entry => entry.name.includes(".ts")),
-  filter<DirEntry>(entry => !entry.name.includes(".test.ts")),
-  filter<DirEntry>(entry => !entry.name.includes(".benchmark.ts")),
-  map<DirEntry, string>(entry => entry.path)
+  filter<DirEntry>((entry) => entry.isFile),
+  filter<DirEntry>((entry) => entry.name.includes(".ts")),
+  filter<DirEntry>((entry) => !entry.name.includes(".test.ts")),
+  filter<DirEntry>((entry) => !entry.name.includes(".benchmark.ts")),
+  map<DirEntry, string>((entry) => entry.path),
 );
 
 /**
  * Write the list of `filePaths` in the barrel file
  */
-function writePublicApi(filePaths: string[], outputFile: string = "./public-api.ts", tmpl: string = `export * from "./{{ path }}";\n`) {
+function writePublicApi(
+  filePaths: string[],
+  outputFile = "./public-api.ts",
+  tmpl = `export * from "./{{ path }}";\n`,
+) {
   const encoder = new TextEncoder();
   const data = pipeFrom<string>(filePaths)(
     map((path: string) => interpolate(tmpl, { path })),
-    join('')
+    join(""),
   );
 
-  Deno.writeFile("./public-api.ts", encoder.encode(data));
+  Deno.writeFile(outputFile, encoder.encode(data));
 }
 
 const { options, args } = await new Command()
   .name("create-public-api")
   .version("0.1.0")
-  .description("Automatically reads the TS files inside a folder (recursively) and write it in a barrel file")
+  .description(
+    "Automatically reads the TS files inside a folder (recursively) and write it in a barrel file",
+  )
   .arguments("<sourceFolder>")
-  .option("--output [string]", "Set the output file", { default: "./public-api.ts" })
-  .option("--template [string]", "Set the template to be used in the export line", { default: `export * from "./{{path}}";\n` })
+  .option("--output [string]", "Set the output file", {
+    default: "./public-api.ts",
+  })
+  .option(
+    "--template [string]",
+    "Set the template to be used in the export line",
+    { default: `export * from "./{{path}}";\n` },
+  )
   .parse(Deno.args);
-
 
 writePublicApi(
   readFilesForBarrel(args[0]),
   options.output,
-  options.template
+  options.template,
 );

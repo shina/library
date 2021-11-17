@@ -35,8 +35,8 @@ export function mergeObjects<
 
 export function mergeArrays<
   R extends any[],
-  >(objs: R[], startsWith = []): R {
-  const arrayMerger = reduceUsing<R>((prev: R, curr: R) => ([ ...prev, ...curr ]));
+>(objs: R[], startsWith = []): R {
+  const arrayMerger = reduceUsing<R>((prev: R, curr: R) => [...prev, ...curr]);
 
   return arrayMerger(objs)(startsWith as any);
 }
