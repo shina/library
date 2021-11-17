@@ -9,13 +9,13 @@ test("reduceUsing", () => {
   assertEquals(dataSum([1, 2, 3]), 6);
 });
 
-describe("reduceObjectsInOne", it => {
+describe("reduceObjectsInOne", (it) => {
   it("should merge the array of objects into one merged object", () => {
     const obj = reduceObjectsInOne([
-      { foo: 'bar' },
-      { lorem: 'ipsum' }
+      { foo: "bar" },
+      { lorem: "ipsum" },
     ]);
 
-    assertEquals(obj, { foo: 'bar', lorem: 'ipsum' });
+    assertEquals(obj, { foo: "bar", lorem: "ipsum" });
   });
 });
