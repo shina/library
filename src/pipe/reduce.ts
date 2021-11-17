@@ -23,7 +23,7 @@ export const reduceUsing = <
 >(reducer: Reducer) =>
   (data: T[]) => (value: Result) => data.reduce<Result>(reducer, value);
 
-export function reduceObjectsInOne<
+export function mergeObjects<
   R extends Record<string | number | symbol, unknown>,
 >(objs: R[], startsWith = {}): R {
   const objectMerger = reduceUsing<R>(
