@@ -7,6 +7,6 @@
 export const pipe = <T>(...fns: CallableFunction[]) =>
   (x?: T) => fns.reduce((v: T | undefined, f: CallableFunction) => f(v), x);
 
-export const pipeFrom = <T>(x?: T) =>
+export const pipeFrom = <U>(x?: any) =>
   (...fns: CallableFunction[]) =>
-    fns.reduce((v: T | undefined, f: CallableFunction) => f(v), x);
+    fns.reduce<U>((v: any, f: CallableFunction) => f(v), x);
