@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 /**
  * Eric Elliott's pipe function
  * @see https://medium.com/javascript-scene/composing-software-an-introduction-27b72500d6ea

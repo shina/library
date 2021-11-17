@@ -1,6 +1,6 @@
-import { describe } from "./test-utils/deno-behaviour-test.ts";
+import { describe } from "../test-utils/deno-behaviour-test.ts";
 import { pipe, pipeFrom } from "./pipe.ts";
-import { assertEquals } from "../deps.ts";
+import { assertEquals } from "../../deps.ts";
 
 describe("pipe", (it) => {
   it("should pipe the functions", () => {
