@@ -25,10 +25,18 @@ export const reduceUsing = <
 
 export function reduceObjectsInOne<
   R extends Record<string | number | symbol, unknown>,
->(objs: R[]): R {
+>(objs: R[], startsWith = {}): R {
   const objectMerger = reduceUsing<R>(
     (prev: R, curr: R) => ({ ...prev, ...curr }),
   );
 
-  return objectMerger(objs)({} as R);
+  return objectMerger(objs)(startsWith as R);
+}
+
+export function mergeArrays<
+  R extends any[],
+  >(objs: R[], startsWith = []): R {
+  const arrayMerger = reduceUsing<R>((prev: R, curr: R) => ([ ...prev, ...curr ]));
+
+  return arrayMerger(objs)(startsWith as any);
 }
